@@ -1,0 +1,29 @@
+TPZ_seqpitdly.py
+
+INFO
+1
+usare il CSD TPZ_seqpitdly_pvspit_low_reso.csd 
+pitch shifter basato su pvs con pvsanal che fornisce fsig globale
+per migliore qualità trasposizioni e minore pesantezza calcoli
+
+
+
+
+
+TO DO
+
+eliminare commenti e import a txtctrlnum
+
+bloccare lo zoom quando arriva a 1 step
+
+preset interface
+
+
+
+
+DONE
+
+
+il selettore mode dell'envelope follower non funziona solo sul punto ID 1
+
+sostituito txtctrlnum con floatspinmouse

@@ -1,29 +1,48 @@
 TPZ_seqpitdly.py
 
-INFO
-1
-usare il CSD TPZ_seqpitdly_pvspit_low_reso.csd 
-pitch shifter basato su pvs con pvsanal che fornisce fsig globale
-per migliore qualità trasposizioni e minore pesantezza calcoli
 
 
+TO DO / BUGS
 
+1.
+csound configuration works only with options within csd file
+(setting jackd from config/csndconfig.txt dont work)
 
+2.
+Remove all references to txtctrlnum
 
-TO DO
+3.
+lock zoom whe arrives atr maximum (1 step sible)
 
-eliminare commenti e import a txtctrlnum
+4.
+input and output control on recycle delay
 
-bloccare lo zoom quando arriva a 1 step
+5.
+Output mixer comunication between GUI and csd to be changed from
+channel based to table based (be careful with recycle behaviour if moving in
+ftgen 99)
 
+4.
 preset interface
+
+5.
+Improving Bpm/tap tempo panel
+ 
+
+
+
+INFO
+
+use CSD TPZ_seqpitdly_pvspit_low_reso.csd 
+pvs based pitch shifter with global fsig
 
 
 
 
 DONE
 
+- envelope follower on line ID 1 now working
 
-il selettore mode dell'envelope follower non funziona solo sul punto ID 1
+- replaced txtctrlnum with floatspinmouse
 
-sostituito txtctrlnum con floatspinmouse
+- fixed recycle delay

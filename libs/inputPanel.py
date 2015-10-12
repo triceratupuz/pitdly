@@ -1,5 +1,4 @@
 import wx
-import txtctrlnum#to be removed
 import floatspinmouse
 
 class InputPanel(wx.Panel):
@@ -25,16 +24,7 @@ class InputPanel(wx.Panel):
 		
 		#Gain
 		gainT = wx.StaticText(self, -1, "Gain", style= wx.ALIGN_LEFT)
-		'''
-		self.gain = txtctrlnum.TxtCtrlNumCs(self, -1,
-				style=wx.TE_PROCESS_ENTER|wx.TE_RICH2,
-				min_val = 0.0,
-				max_val = 10.0,
-				init_val = 1.0,
-				cSound = self.cSound,
-				channel = "inGainDly", size=(60,20))
-		'''
-		self.gain = floatspinmouse.FloatSpinMouseCs(parent=self, id=-1,
+		self.gain = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 10.0,
@@ -42,7 +32,8 @@ class InputPanel(wx.Panel):
 																			value = 1.0,
 																			size = siz,
 																			cSound = self.cSound,
-																			channel = "inGainDly")		
+																			ftable = 99,
+																			indxn = 11)#channel = "inGainDly"
 		
 		
 		#Timer Update MUST BE STOPPED IN MAIN FRAME
@@ -50,8 +41,10 @@ class InputPanel(wx.Panel):
 		self.timerRefresh.Start(200)
 		self.Bind(wx.EVT_TIMER, self.timerUpdate, self.timerRefresh)
 		#initialize values
-		self.cSound.SetChannel("monostereo", 0.0)
-		self.cSound.SetChannel("inGainDly", 1.0)
+		#self.cSound.SetChannel("monostereo", 0.0)
+		#self.cSound.SetChannel("inGainDly", 1.0)
+		self.cSound.TableSet(99, 0, 0.0)
+		self.cSound.TableSet(99, 11, 1.0)
 		
 		
 		#Recycle Stuff
@@ -66,16 +59,6 @@ class InputPanel(wx.Panel):
 		
 		#feed_index = 2
 		feedT = wx.StaticText(self, -1, "Feedback", style= wx.ALIGN_RIGHT)
-		'''
-		self.feed = txtctrlnum.TxtCtrlNumTs(self, -1,
-				style=wx.TE_PROCESS_ENTER|wx.TE_RICH2, size=(60,20),
-				min_val = 0.0,
-				max_val = 1.0,
-				init_val = 0.0,
-				cSound = self.cSound,
-				ftable = 99,
-				indxn = 2)
-		'''
 		self.feed = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
@@ -115,9 +98,11 @@ class InputPanel(wx.Panel):
 	def monoStereoSelect(self, evt):
 		state = self.monoStereo.IsChecked()
 		if state:
-			self.cSound.SetChannel("monostereo", 1.0)
+			#self.cSound.SetChannel("monostereo", 1.0)
+			self.cSound.TableSet(99, 0, 1.0)
 		else:
-			self.cSound.SetChannel("monostereo", 0.0)
+			#self.cSound.SetChannel("monostereo", 0.0)
+			self.cSound.TableSet(99, 0, 0.0)
 
 
 		

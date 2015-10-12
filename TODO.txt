@@ -9,24 +9,16 @@ csound configuration works only with options within csd file
 (setting jackd from config/csndconfig.txt dont work)
 
 2.
-Remove all references to txtctrlnum
+lock zoom when arrives at maximum (1 step visible)
 
 3.
-lock zoom whe arrives atr maximum (1 step sible)
-
-4.
-input and output control on recycle delay
-
-5.
-Output mixer comunication between GUI and csd to be changed from
-channel based to table based (be careful with recycle behaviour if moving in
-ftgen 99)
+input, output and filters control on recycle delay
 
 4.
 preset interface
 
 5.
-Improving Bpm/tap tempo panel
+Improving Bpm/tap tempo panel / to be rewritten without txtctrlnum
  
 
 
@@ -46,3 +38,9 @@ DONE
 - replaced txtctrlnum with floatspinmouse
 
 - fixed recycle delay
+
+- Output mixer comunication between GUI and csd to be changed from
+	channel based to table based (be careful with recycle behaviour if moving in
+	ftgen 99): recycle time, monostereoin, outmixer, outlimit, ingain
+
+- removed txtctrlnum everywhere except on bpm/tap panel

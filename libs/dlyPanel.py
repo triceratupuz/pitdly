@@ -1,5 +1,4 @@
 import wx
-import txtctrlnum#to be removed
 import floatspinmouse
 import inputPanel
 import gridPanel
@@ -50,16 +49,7 @@ class DlyPanel(wx.Panel):
 		self.zoomOut = wx.Button(self, -1, label='Zoom Out', size=(60,20))
 		
 		gainTI = wx.StaticText(self, -1, "Gain\nDirect", style= wx.ALIGN_LEFT)
-		'''
-		self.gainI = txtctrlnum.TxtCtrlNumCs(self, -1,
-				style=wx.TE_PROCESS_ENTER|wx.TE_RICH2,
-				min_val = 0.0,
-				max_val = 10.0,
-				init_val = 1.0,
-				cSound = self.cSound,
-				channel = "outdirectV", size=(60,20))		
-		'''
-		self.gainI = floatspinmouse.FloatSpinMouseCs(parent=self, id=-1,
+		self.gainI = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 10.0,
@@ -67,19 +57,11 @@ class DlyPanel(wx.Panel):
 																			value = 1.0,
 																			size = siz,
 																			cSound = self.cSound,
-																			channel = "outdirectV")				
+																			ftable = 99,
+																			indxn = 7)#channel = "outdirectV"
 		
 		gainTD = wx.StaticText(self, -1, "Gain\nDelay", style= wx.ALIGN_LEFT)
-		'''
-		self.gainD = txtctrlnum.TxtCtrlNumCs(self, -1,
-				style=wx.TE_PROCESS_ENTER|wx.TE_RICH2,
-				min_val = 0.0,
-				max_val = 10.0,
-				init_val = 1.0,
-				cSound = self.cSound,
-				channel = "outdlyV", size=(60,20))
-		'''
-		self.gainD = floatspinmouse.FloatSpinMouseCs(parent=self, id=-1,
+		self.gainD = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 10.0,
@@ -87,19 +69,11 @@ class DlyPanel(wx.Panel):
 																			value = 1.0,
 																			size = siz,
 																			cSound = self.cSound,
-																			channel = "outdlyV")		
+																			ftable = 99,
+																			indxn = 8)#channel = "outdlyV"
 		
 		gainTR = wx.StaticText(self, -1, "Gain\nRecycle", style= wx.ALIGN_LEFT)
-		'''
-		self.gainR = txtctrlnum.TxtCtrlNumCs(self, -1,
-				style=wx.TE_PROCESS_ENTER|wx.TE_RICH2,
-				min_val = 0.0,
-				max_val = 10.0,
-				init_val = 1.0,
-				cSound = self.cSound,
-				channel = "outrecycV", size=(60,20))		
-		'''
-		self.gainR = floatspinmouse.FloatSpinMouseCs(parent=self, id=-1,
+		self.gainR = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 10.0,
@@ -107,24 +81,25 @@ class DlyPanel(wx.Panel):
 																			value = 1.0,
 																			size = siz,
 																			cSound = self.cSound,
-																			channel = "outrecycV")	
+																			ftable = 99,
+																			indxn = 9)#channel = "outrecycV"
 		
 		#Limiter
 		limitT = wx.StaticText(self, -1, "Limiter", style= wx.ALIGN_LEFT)
 		self.limit = wx.CheckBox(self, -1, style=wx.CHK_2STATE)
-		self.Bind(wx.EVT_CHECKBOX, self.limitSet, self.limit)	
+		self.Bind(wx.EVT_CHECKBOX, self.limitSet, self.limit)
 		
 		#VUMETER
 		vuLT = wx.StaticText(self, -1, "dB L", style= wx.ALIGN_CENTER | wx.TE_RICH)
 		self.vumeter_inL = wx.TextCtrl(self, -1, size=(60,20))
 		vuRT = wx.StaticText(self, -1, "dB R", style= wx.ALIGN_CENTER | wx.TE_RICH)
 		self.vumeter_inR = wx.TextCtrl(self, -1, size=(60,20))
-
+		
 		#Timer Update MUST BE STOPPED IN MAIN FRAME
 		self.timerRefresh = wx.Timer(self, wx.ID_ANY)
 		self.timerRefresh.Start(200)
 		self.Bind(wx.EVT_TIMER, self.timerUpdate, self.timerRefresh)
-
+		
 		bord = 12
 		controlSizer.Add(stepValueT, pos=(0,0))
 		controlSizer.Add(self.Stepvalue, pos=(0,1))
@@ -172,9 +147,13 @@ class DlyPanel(wx.Panel):
 		self.Bind(wx.EVT_BUTTON, self.gridPan.setZoom_out, self.zoomOut)#increase starting point
 		
 		#initialize values
-		self.cSound.SetChannel("outdirectV", 1.0)
-		self.cSound.SetChannel("outdlyV", 1.0)
-		self.cSound.SetChannel("outrecycV", 1.0)
+		#self.cSound.SetChannel("outdirectV", 1.0)
+		#self.cSound.SetChannel("outdlyV", 1.0)
+		#self.cSound.SetChannel("outrecycV", 1.0)
+		self.cSound.TableSet(99, 7, 1.0)
+		self.cSound.TableSet(99, 8, 1.0)
+		self.cSound.TableSet(99, 9, 1.0)
+		self.cSound.TableSet(99, 10, 0.0)
 
 
 	def timeGridSetting(self, evt):
@@ -196,9 +175,11 @@ class DlyPanel(wx.Panel):
 		"""activate the limiter"""
 		state = self.limit.IsChecked()
 		if state:
-			self.cSound.SetChannel("limitON", 1.0)
+			#self.cSound.SetChannel("limitON", 1.0)
+			self.cSound.TableSet(99, 10, 1.0)
 		else:
-			self.cSound.SetChannel("limitON", 0.0)
+			#self.cSound.SetChannel("limitON", 0.0)
+			self.cSound.TableSet(99, 10, 0.0)
 
 
 	def timerUpdate(self, evt):

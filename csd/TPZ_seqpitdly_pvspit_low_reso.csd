@@ -11,7 +11,7 @@ nchnls = 2
 0dbfs = 1
 zakinit 9, 1
 
-; bus channel 
+;bus channels
 ;gkbpm chnexport "gkbpm", 3 
 gktaptempo_t init 0;last tap temp time
 gktaptempo_c init 0;counter of taps
@@ -20,15 +20,6 @@ gktaptempo_c init 0;counter of taps
 chn_k "gkbpm_from_cs", 2;out Channel
 chn_k "gkbpmt_to_cs", 1;In Channel
 chn_k "metro_from_cs", 2;out Channel
-
-
-
-
-chn_k "monostereo", 1;delay input mono or stereo
-chn_k "inGainDly", 1;delay input volume
-chn_k "outdirectV", 1;outmix direct volume
-chn_k "outdlyV", 1;outmix delay volume
-chn_k "limitON", 1;limiter activation
 
 chn_k "directvul", 2;direct vumeter LH
 chn_k "directvur", 2;direct vumeter RH
@@ -66,8 +57,15 @@ ainl, ainr diskin2 "202244__luckylittleraven__bass01.wav", 1, 0, 1
 
 ;mono/stereo input operation
 ;kstereoin init 0
-kstereoin chnget "monostereo"
-kinGainDly chnget "inGainDly"
+;kstereoin chnget "monostereo"
+kind = 0
+kstereoin tab kind, 99
+;printk2 kstereoin
+
+;kinGainDly chnget "inGainDly"
+kind = 11
+kinGainDly tab kind, 99
+
 kinGainDlyP port kinGainDly, 0.05
 kinGainDlyP init 1
 if kstereoin == 0 then
@@ -259,9 +257,15 @@ kacti30 = (kacti30 < 1 ? 1 : kacti30)
 kacti30p port kacti30, .02
 
 ;Mixer
-kdirect chnget "outdirectV";outmix direct volume
-kdly chnget "outdlyV";outmix delay volume
-krecyc chnget "outrecycV"
+;kdirect chnget "outdirectV";outmix direct volume
+kind = 7
+kdirect tab kind, 99
+;kdly chnget "outdlyV";outmix delay volume
+kind = 8
+kdly tab kind, 99
+;krecyc chnget "outrecycV"
+kind = 9
+krecyc tab kind, 99
 kdirectP port kdirect, 0.05
 kdlyP port kdly, 0.05
 krecycP port krecyc, 0.05
@@ -276,7 +280,9 @@ atl = kdecl * ((adirectl * kdirectP + kdlyP * adlyl / sqrt(kacti30p)) + (arecycl
 atr = kdecl * ((adirectr * kdirectP + kdlyP * adlyr / sqrt(kacti30p)) + (arecycr * krecycP))
 
 ;limiter
-klimit chnget "limitON"
+;klimit chnget "limitON"
+kind = 10
+klimit tab kind, 99
 if klimit == 1 then
 	atl AtanLimit atl
 	atr AtanLimit atr
@@ -318,7 +324,22 @@ f1 0 16384 10 1
 
 f 20 0 0 1 "202244__luckylittleraven__bass01.wav" 0 0 0
 
-f 99 0 4 -2 0;recycle delay table
+f 99 0 16 -2 0;recycle delay table
+;index
+;0 - mono stereo input
+;1 - recycle time
+;2 - recycle feedback
+;3 - recycle input from input - TO BE ADDED!!!
+;4 - recycle input from delays - TO BE ADDED!!!
+;5 - 
+;6 - 
+;7 - Outmixer direct volume
+;8 - Outmixer delay volume
+;9 - Outmixer recycle volume
+;10 - Outmixer limiter
+;11 - input gain
+
+
 ;ftables from 100 and on used for delay istances perameters
 f 100 0 16 -2 0;dummy table
 

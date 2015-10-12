@@ -11,10 +11,7 @@ class GridPanel(wx.Panel):
 		self.cSound = k.pop('cSound', None)
 		self.cSound_perf = k.pop('cSound_perf', None)
 		super(GridPanel, self).__init__(*a, **k)#super the subclass
-		#print self.cSound
-		#print self.cSound.GetSr()
-		#print dir(self.cSound)
-
+		
 		mainSizer = wx.BoxSizer(wx.HORIZONTAL)
 		stepsIndex = "1/8"
 		self.stepsMultiplier = self.stepsDict[stepsIndex]
@@ -140,9 +137,9 @@ class GridPanel(wx.Panel):
 				ktime = floatops.floatMultRound(ktime, self.stepsMultiplier)
 			self.recycle[0] = ktime
 			#ToCsound
-			ftable = 'f 99 0 4 -2 0 %f' % ktime
+			self.cSound.TableSet(99, 1, ktime)
 			instr = 'i 40 0.02 -1'
-			self.cSound.InputMessage(ftable + '\n' + instr)
+			self.cSound.InputMessage(instr)
 			#Update inputPanel
 			self.GetParent().inPanel.updateGraphics("ON", ktime)
 		dc = wx.BufferedDC(wx.ClientDC(self), self.buffer)
@@ -208,7 +205,7 @@ class GridPanel(wx.Panel):
 		"""zoom in the grid"""
 		if self.steps >= 2.0:
 			self.steps = self.steps * .5
-			#print self.steps 
+			print self.steps 
 		else:
 			print "NO MORE ZOOM"
 		dc = wx.BufferedDC(wx.ClientDC(self), self.buffer)
@@ -269,13 +266,21 @@ class GridPanel(wx.Panel):
 		while i < self.steps:
 			sttxt = "%d" % (self.startOnDc + i)
 			sttw, stth = dc.GetTextExtent(sttxt)
-			dc.DrawText(sttxt, (self.bordx / 2) - sttw / 2+ int(i * (self.dcw - self.bordx) / (self.steps-1)), self.bordy/2 - stth)
+			if self.steps == 1.0:
+				safer = 0
+			else:
+				safer = int(i * (self.dcw - self.bordx) / (self.steps-1))
+			dc.DrawText(sttxt, (self.bordx / 2) - sttw / 2 + safer, self.bordy/2 - stth)
+			#dc.DrawText(sttxt, (self.bordx / 2) - sttw / 2+ int(i * (self.dcw - self.bordx) / (self.steps-1)), self.bordy/2 - stth)
 			i += 1.0
-		
 		i = 0.0
 		#for i in range(0, int(self.steps * 1 / self.stepsMultiplier)):#time vertical lines
 		while i < (self.steps * 1 / self.stepsMultiplier):
-			opos = (self.bordx / 2) + int(i * self.stepsMultiplier * (self.dcw - self.bordx) / (self.steps-1))
+			if self.steps == 1.0:
+				safer = 0
+			else:
+				safer = int(i * self.stepsMultiplier * (self.dcw - self.bordx) / (self.steps-1))
+			opos = (self.bordx / 2) + safer
 			if opos <= (self.dcw - self.bordx / 2):
 				dc.DrawLine(opos, self.bordy/2 , opos, self.dch - (self.bordy/2))
 			i += 1.0

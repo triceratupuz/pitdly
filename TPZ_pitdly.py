@@ -17,8 +17,6 @@ c = csnd6.Csound()    # create an instance of Csound
 foptions = open(os.path.join('config','csndconfig.txt'), 'r')
 for opt in foptions:
 	if opt[0] != ";" and opt != "":
-		#pass
-		#c.SetOption(opt)  
 		c.SetOption(opt.replace(' ', '').strip('\n'))  
 foptions.close()
 
@@ -34,21 +32,13 @@ def updateMetronome(csound):
 	#frame.tapP.readMetroB(tick)
 	#print frame.tapP.stampatest()
 
-
-
-
 perfThread = csnd6.CsoundPerformanceThread(c)
 
 # SET CALLBACKS HERE
-
-
 perfThread.SetProcessCallback(updateMetronome, c) 
-
 
 #performance thread
 perfThread.Play()
-
-
 
 
 #GUI CODE###########################################################
@@ -114,21 +104,13 @@ class TopFrame(wx.Frame):
 class AppWithTerm(wx.App):
 	"""wx.App subclassed to include csound Thread termination"""
 	def OnExit(self):
-		print "Closing csnd Thread"
+		#print "Closing csnd Thread"
 		perfThread.Stop()
 		perfThread.Join()
-		print "Closed csnd Thread"
+		#print "Closed csnd Thread"
 
 
 app = AppWithTerm(False)#True to redirect stdin/sterr
-frame = TopFrame(None, title='SeqPitDLY')
+frame = TopFrame(None, title='Pitdly')
 app.MainLoop()
 
-
-"""
-if __name__ == "__main__":
-	app = AppWithTerm(False)#True to redirect stdin/sterr
-	frame = TopFrame(None, title='SeqPitDLY')
-	#frame.Show()
-	app.MainLoop()
-"""

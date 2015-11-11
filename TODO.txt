@@ -15,9 +15,6 @@ lock zoom when arrives at maximum (1 step visible)
 input, output and filters control on recycle delay
 
 4.
-preset interface
-
-5.
 Improving Bpm/tap tempo panel / to be rewritten without txtctrlnum
  
 
@@ -44,3 +41,5 @@ DONE
 	ftgen 99): recycle time, monostereoin, outmixer, outlimit, ingain
 
 - removed txtctrlnum everywhere except on bpm/tap panel
+
+- preset interface

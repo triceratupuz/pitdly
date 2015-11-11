@@ -41,6 +41,7 @@ class SingleDlyPanel(wx.Panel):
 																			indxn = 4)
 		self.feed.SetValue(self.cSound.TableGet(self.tabN, 4))
 		
+		
 		#lf_index = 5
 		lfT = wx.StaticText(self, -1, "LF", style= wx.ALIGN_RIGHT)
 		self.lf = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
@@ -261,4 +262,6 @@ class SingleDlyPanel(wx.Panel):
 		print self.tabN
 		self.cSound.TableSet(self.tabN, 14, mode)
 
-
+	def emitVal(self, evt, index):
+		print index
+		print self.feed.GetValue()

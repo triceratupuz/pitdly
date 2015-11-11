@@ -26,7 +26,8 @@ class GridPanel(wx.Panel):
 		#points storage
 		self.points = []
 		#recycle storage
-		self.recycle = [0, 0]
+		#self.recycle = [0, 0]
+		self.recycle = 0
 		
 		#points verbose, displays no screen
 		self.pointsVerbose = 0
@@ -74,7 +75,7 @@ class GridPanel(wx.Panel):
 	
 		
 	def recordPoint(self, evt):
-		#"""record position on left down"""
+		"""record position on left down"""
 		position= evt.GetPositionTuple()
 		toappend = 1
 		ktime = 0
@@ -135,7 +136,8 @@ class GridPanel(wx.Panel):
 			ktime = musicalV[0]
 			if self.timeQuantize:#se tempo quantizzato
 				ktime = floatops.floatMultRound(ktime, self.stepsMultiplier)
-			self.recycle[0] = ktime
+			#self.recycle[0] = ktime
+			self.recycle = ktime
 			#ToCsound
 			self.cSound.TableSet(99, 1, ktime)
 			instr = 'i 40 0.02 -1'
@@ -173,8 +175,10 @@ class GridPanel(wx.Panel):
 				#Csound turnoff instrument code here
 				self.cSound.InputMessage('i %f 0 -1' %(-30 + self.points[index][0] * 0.001))
 				#Csound turnoff instrument code here
-		if (self.valuesToScreen((self.recycle[0], -1))[0] - 5) < pos[0] < (self.valuesToScreen((self.recycle[0], -1))[0] + 5):
-			self.recycle[0] = self.recycle[0] * -1.0
+		#if (self.valuesToScreen((self.recycle[0], -1))[0] - 5) < pos[0] < (self.valuesToScreen((self.recycle[0], -1))[0] + 5):
+		if (self.valuesToScreen((self.recycle, -1))[0] - 5) < pos[0] < (self.valuesToScreen((self.recycle, -1))[0] + 5):
+			#self.recycle[0] = self.recycle[0] * -1.0
+			self.recycle = self.recycle * -1.0
 			#to Csound
 			instr = 'i -40 0.02 -1'
 			self.cSound.InputMessage(instr)
@@ -332,9 +336,11 @@ class GridPanel(wx.Panel):
 
 	def drawRecycle(self, dc):
 		"""draw the recycle indication and update input panel"""
-		if self.recycle[0] > 0:
+		#if self.recycle[0] > 0:
+		if self.recycle > 0:
 			dc.SetPen(wx.Pen('BLUE', 3, wx.SOLID))
-			xpos=self.valuesToScreen((self.recycle[0], 0))[0]
+			#xpos=self.valuesToScreen((self.recycle[0], 0))[0]
+			xpos=self.valuesToScreen((self.recycle, 0))[0]
 			dc.DrawLine(xpos, self.bordy/2 , xpos, self.dch - (self.bordy/2))
 		
 		

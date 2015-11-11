@@ -7,6 +7,7 @@ import math
 import libs.tapPanel as tapPanel
 import libs.dlyPanel as dlyPanel
 import libs.singledlyPanel as singledlyPanel
+import libs.presetPanel as presetPanel
 
 #CSND CODE###########################################################
 ###################################################################
@@ -56,11 +57,6 @@ class TopFrame(wx.Frame):
 		#menu under ubuntu problems with menus
 		#self.topMenu()
 		#create the items
-		#preset panel
-		"""
-		self.presetP = wx.Panel(self, -1)
-		self.presetP.SetBackgroundColour((200, 200, 200))
-		"""
 		#tap panel
 		self.tapP = tapPanel.TapPanel(self, -1, (-1,-1), cSound=c, cSound_perf=perfThread)
 		#delay panel
@@ -70,14 +66,11 @@ class TopFrame(wx.Frame):
 		self.singledlyP = singledlyPanel.SingleDlyPanel(self, -1, (-1,-1), cSound=c, cSound_perf=perfThread)
 		
 		#Preset
-		self.presetP = wx.Panel(self, -1)
-		self.presetP.SetBackgroundColour((250, 0, 0))
+		self.presetP = presetPanel.PresetPanel(self, -1, (-1,-1), cSound=c, cSound_perf=perfThread)
+		#self.presetP.SetBackgroundColour((250, 0, 0))
 		#create the sizer
 		self.vboxsizer = wx.BoxSizer(wx.VERTICAL)
 		#add in the sizer
-		"""
-		self.vboxsizer.Add(self.presetP, 0,flag=wx.EXPAND)
-		"""
 		self.vboxsizer.Add(self.tapP, 0,flag=wx.EXPAND)
 		self.vboxsizer.Add(self.matrixSeqP, 0,flag=wx.EXPAND)
 		self.vboxsizer.Add(self.singledlyP, 0,flag=wx.EXPAND)

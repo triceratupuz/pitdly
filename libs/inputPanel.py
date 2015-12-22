@@ -36,6 +36,10 @@ class InputPanel(wx.Panel):
 																			indxn = 11)#channel = "inGainDly"
 		
 		
+		#Test Sound
+		self.testSound = wx.CheckBox(self, -1, label='test Sound', style=wx.CHK_2STATE)
+		self.Bind(wx.EVT_CHECKBOX, self.testSoundSelect, self.testSound)
+		
 		#Timer Update MUST BE STOPPED IN MAIN FRAME
 		self.timerRefresh = wx.Timer(self, wx.ID_ANY)
 		self.timerRefresh.Start(200)
@@ -80,6 +84,7 @@ class InputPanel(wx.Panel):
 		self.vuSizer.Add(self.vumeter_inR, pos=(3,1))
 		self.vuSizer.Add(gainT, pos=(1,0))
 		self.vuSizer.Add(self.gain, pos=(1,1))
+		self.vuSizer.Add(self.testSound, pos=(4,1))
 		
 		self.vuSizer.Add(RecycleT, pos=(6,0))
 		self.vuSizer.Add(self.Recycle, pos=(6,1))
@@ -104,8 +109,13 @@ class InputPanel(wx.Panel):
 			#self.cSound.SetChannel("monostereo", 0.0)
 			self.cSound.TableSet(99, 0, 0.0)
 
-
-		
+	def testSoundSelect(self, evt):
+		state = self.testSound.IsChecked()
+		if state:
+			self.cSound.SetChannel("test_sound", 1)
+			self.cSound.InputMessage("i 1 0 1")
+		else:
+			self.cSound.SetChannel("test_sound", 0)
 		
 	def timerUpdate(self, evt):
 		"""update the vumeters"""

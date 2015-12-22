@@ -17,6 +17,8 @@ gktaptempo_t init 0;last tap temp time
 gktaptempo_c init 0;counter of taps
 ;gkv chnexport "count", 3 
 
+chn_k "test_sound", 1;out Channel
+
 chn_k "gkbpm_from_cs", 2;out Channel
 chn_k "gkbpmt_to_cs", 1;In Channel
 chn_k "metro_from_cs", 2;out Channel
@@ -40,20 +42,39 @@ endop
 
 
 
+instr 1;test
+ktest chnget "test_sound"
+;print p3
+if ktest == 0 then
+	turnoff
+endif
+indur unirand 4
+induri = int(indur)
+inextp3 = induri * 15 / i(gkbpmP)
+event_i "i", 1, p3, inextp3
+
+ipitch unirand 48
+ivol unirand 0.4
+ipos unirand 1.0
+kenve linseg 0, 0.01, 1, 0.01, 0.5, p3 - 0.03, 0.4, 0.01, 0
+ao oscil 0.3 + ivol, cpsmidinn(48 + ipitch), 1
+alh, arh pan2 ao, ipos
+
+
+;kinGainDly chnget "inGainDly"
+kind = 11
+kinGainDly tab kind, 99
+
+zawm alh * kinGainDly, 0
+zawm arh * kinGainDly, 1
+zawm ao, 2
+;outs ao, ao
+endin
 
 
 
-
-instr 1;test & input
-;ainl, ainr ins
-
-ainl, ainr diskin2 "202244__luckylittleraven__bass01.wav", 1, 0, 1
-;outs ainl, ainl
-
-;ainl oscil .3, 440
-;ainr = ainl
-;outs ainl, ainl
-
+instr 2;input
+ainl, ainr ins
 
 ;mono/stereo input operation
 ;kstereoin init 0
@@ -80,10 +101,14 @@ else
 	aoutd = (ainl + ainr) * .5
 endif
 
-zawm aoutl * kinGainDly, 0
-zawm aoutr * kinGainDly, 1
-zawm aoutd * kinGainDly , 2
+atest0 zar 0
+atest1 zar 1
+atest2 zar 2
+zacl 0, 2
 
+zawm (aoutl + atest0) * kinGainDly, 0
+zawm (aoutr + atest1) * kinGainDly, 1
+zawm (aoutd + atest2) * kinGainDly , 2
 
 ;metronome management
 kbpmt changed gkbpm
@@ -109,7 +134,7 @@ ifftsize  = 1024 * 2
 ioverlap  = ifftsize / 4
 iwinsize  = ifftsize
 iwintype = 1
-gfsig  pvsanal   aoutd * kinGainDly, ifftsize, ioverlap, iwinsize, iwintype ; analyse it
+gfsig  pvsanal   (aoutd + atest2) * kinGainDly, ifftsize, ioverlap, iwinsize, iwintype ; analyse it
 
 
 endin
@@ -310,7 +335,6 @@ if ktrigamp == 1 then
 endif
 
 
-
 outs atl, atr
 zacl 0, 6
 endin
@@ -346,7 +370,7 @@ f 100 0 16 -2 0;dummy table
 
 
 ;Run
-i1 0 3600
+i2 0 3600
 i39 0 3600
 i50 0 3600
 

@@ -43,3 +43,5 @@ DONE
 - removed txtctrlnum everywhere except on bpm/tap panel
 
 - preset interface
+
+- Added test sound/removed external wav file

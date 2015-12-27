@@ -7,7 +7,7 @@ It's a realtime audio manipulation program that allows to create a series of pit
 
 ## Dependency
 - Python 2.7 (not 3)
-- wxpython 2.8 and above
+- wxpython 2.8 (versions above may cause problems)
 - Csound 6.X python API
 
 

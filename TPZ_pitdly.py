@@ -14,13 +14,6 @@ import libs.presetPanel as presetPanel
 ###################################################################
 c = csnd6.Csound()    # create an instance of Csound
 
-#read and set csound options from file
-foptions = open(os.path.join('config','csndconfig.txt'), 'r')
-for opt in foptions:
-	if opt[0] != ";" and opt != "":
-		c.SetOption(opt.replace(' ', '').strip('\n'))  
-foptions.close()
-
 file = "csd/TPZ_seqpitdly_pvspit_low_reso.csd"
 
 c.Compile(file)     # Compile Orchestra from String

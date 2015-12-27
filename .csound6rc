@@ -1,0 +1,8 @@
+;-iadc -odac
+-d
+-iadc:system:capture_ 
+-odac:system:playback_
+-+rtaudio=jack 
+ -b 128 -B 512
+ -+jack_client=pitdly
+ 

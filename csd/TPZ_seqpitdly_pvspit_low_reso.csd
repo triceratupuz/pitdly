@@ -1,8 +1,5 @@
 <CsoundSynthesizer> 
 <CsOptions> 
-;-i adc 
-;-o dac
-; -d 
 </CsOptions> 
 <CsInstruments> 
 sr = 44100
@@ -345,8 +342,6 @@ endin
 </CsInstruments> 
 <CsScore> 
 f1 0 16384 10 1 
-
-f 20 0 0 1 "202244__luckylittleraven__bass01.wav" 0 0 0
 
 f 99 0 16 -2 0;recycle delay table
 ;index

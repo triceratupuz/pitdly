@@ -2,6 +2,7 @@ import wx
 import floatspinmouse
 import inputPanel
 import gridPanel
+import time
 
 class DlyPanel(wx.Panel):
 	def __init__(self, *a, **k):

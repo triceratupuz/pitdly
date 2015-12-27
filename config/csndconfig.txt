@@ -1,7 +1,0 @@
-;csound commandline Options
-;-+rtaudio=alsa
--iadc
--odac
-;-b940
-;-B2822
--m0

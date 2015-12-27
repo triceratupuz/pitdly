@@ -45,6 +45,7 @@ class GridPanel(wx.Panel):
 		self.dcx, self.dcy = 0, 0
 		self.bordx, self.bordy = 60, 60
 		self.InitBuffer()
+		#????????????????
 		self.Bind(wx.EVT_PAINT, self.OnPaint)#paint event
 		
 		
@@ -52,7 +53,7 @@ class GridPanel(wx.Panel):
 		self.timeQuantize = 0
 		self.pitcQuantize = 0
 		
-		
+		#????????????????
 		self.Bind(wx.EVT_CHAR, self.onCharEvent)
 		
 		
@@ -233,7 +234,8 @@ class GridPanel(wx.Panel):
 		
 
 	def OnPaint(self, evt):
-		dc = wx.BufferedPaintDC(self, self.buffer)
+		#dc = wx.BufferedPaintDC(self, self.buffer)
+		dc = wx.BufferedDC(wx.ClientDC(self), self.buffer)
 		self.DrawIt(dc)
 
 	

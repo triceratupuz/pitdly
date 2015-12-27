@@ -5,17 +5,16 @@ TPZ_seqpitdly.py
 TO DO / BUGS
 
 1.
-csound configuration works only with options within csd file
-(setting jackd from config/csndconfig.txt dont work)
-
-2.
 lock zoom when arrives at maximum (1 step visible)
 
-3.
+2.
 input, output and filters control on recycle delay
 
-4.
+3.
 Improving Bpm/tap tempo panel / to be rewritten without txtctrlnum
+
+4.
+Better sizers layout
  
 
 
@@ -45,3 +44,5 @@ DONE
 - preset interface
 
 - Added test sound/removed external wav file
+
+- Csound configuration/options by .csound6rc not via python

@@ -4,16 +4,14 @@ TPZ_seqpitdly.py
 
 TO DO / BUGS
 
-1.
-lock zoom when arrives at maximum (1 step visible)
 
-2.
+1.
 input, output and filters control on recycle delay
 
-3.
+2.
 Improving Bpm/tap tempo panel / to be rewritten without txtctrlnum
 
-4.
+3.
 Better sizers layout
  
 
@@ -46,3 +44,5 @@ DONE
 - Added test sound/removed external wav file
 
 - Csound configuration/options by .csound6rc not via python
+
+- zoom locking added, minimum is 1 step (1 quarter note)

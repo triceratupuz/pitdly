@@ -208,11 +208,11 @@ class GridPanel(wx.Panel):
 
 	def setZoom_in(self, evt):
 		"""zoom in the grid"""
-		if self.steps >= 2.0:
-			self.steps = self.steps * .5
-			print self.steps 
+		if self.steps >= 4.0:
+			self.steps = self.steps * 0.5
+			#print self.steps 
 		else:
-			print "NO MORE ZOOM"
+			#print "NO MORE ZOOM"
 		dc = wx.BufferedDC(wx.ClientDC(self), self.buffer)
 		self.DrawIt(dc)		
 

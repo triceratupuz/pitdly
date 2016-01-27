@@ -343,6 +343,8 @@ endin
 <CsScore> 
 f1 0 16384 10 1 
 
+f 20 0 0 1 "202244__luckylittleraven__bass01.wav" 0 0 0
+
 f 99 0 16 -2 0;recycle delay table
 ;index
 ;0 - mono stereo input

@@ -4,7 +4,7 @@ import wx
 import os
 import csnd6
 import math
-import libs.tapPanel as tapPanel
+import libs.tapPanelfsm as tapPanelfsm
 import libs.dlyPanel as dlyPanel
 import libs.singledlyPanel as singledlyPanel
 import libs.presetPanel as presetPanel
@@ -23,8 +23,10 @@ c.Compile(file)     # Compile Orchestra from String
 def updateMetronome(csound):
 	"""update gui metronome"""
 	tick = csound.GetChannel("metro_from_cs")
-	#frame.tapP.readMetroB(tick)
-	#print frame.tapP.stampatest()
+	if tick == 1:
+		#frame.tapPfsm.flashing()
+		pass
+
 
 perfThread = csnd6.CsoundPerformanceThread(c)
 
@@ -46,12 +48,13 @@ class TopFrame(wx.Frame):
 		#wx.Frame.__init__(self, *a, **k)
 		#self.csound = k.pop('csound', None)
 		#super(TopFrame, self).__init__(*a, **k)#super the subclass
-		super(TopFrame, self).__init__(parent= parent, title = title, size=(1090, 670))#super the subclass
+		super(TopFrame, self).__init__(parent= parent, title = title, #size=(1090, 670))#super the subclass
+													style=wx.DEFAULT_FRAME_STYLE ^ (wx.MINIMIZE_BOX | wx.MAXIMIZE_BOX))
 		#menu under ubuntu problems with menus
 		#self.topMenu()
 		#create the items
 		#tap panel
-		self.tapP = tapPanel.TapPanel(self, -1, (-1,-1), cSound=c, cSound_perf=perfThread)
+		self.tapPfsm = tapPanelfsm.TapPanel(self, -1, (-1,-1), cSound=c, cSound_perf=perfThread)
 		#delay panel
 		self.matrixSeqP = dlyPanel.DlyPanel(self, -1, (-1,-1), cSound=c, cSound_perf=perfThread)
 		self.matrixSeqP.SetBackgroundColour((0, 250, 2))
@@ -64,7 +67,7 @@ class TopFrame(wx.Frame):
 		#create the sizer
 		self.vboxsizer = wx.BoxSizer(wx.VERTICAL)
 		#add in the sizer
-		self.vboxsizer.Add(self.tapP, 0,flag=wx.EXPAND)
+		self.vboxsizer.Add(self.tapPfsm, 0,flag=wx.EXPAND)
 		self.vboxsizer.Add(self.matrixSeqP, 0,flag=wx.EXPAND)
 		self.vboxsizer.Add(self.singledlyP, 0,flag=wx.EXPAND)
 		self.vboxsizer.Add(self.presetP, -1,flag=wx.EXPAND)
@@ -72,7 +75,7 @@ class TopFrame(wx.Frame):
 		#self.SetSizeHints(800, 300)
 		#self.SetSize(wx.Size(800, 300))
 		self.SetSizer(self.vboxsizer)
-		#self.vboxsizer.Fit(self)
+		self.vboxsizer.Fit(self)
 		
 		self.Show()
 

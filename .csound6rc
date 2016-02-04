@@ -1,3 +1,6 @@
+;Pitdly Audio Options
+--omacro:SRATE=44100
+--omacro:KRATE=64
 -iadc -odac
 ;-d
 ;-iadc:system:capture_ 

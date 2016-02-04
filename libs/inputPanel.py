@@ -1,5 +1,5 @@
 import wx
-import floatspinmouse
+import fsm
 
 class InputPanel(wx.Panel):
 	def __init__(self, *a, **k):
@@ -24,7 +24,7 @@ class InputPanel(wx.Panel):
 		
 		#Gain
 		gainT = wx.StaticText(self, -1, "Gain", style= wx.ALIGN_LEFT)
-		self.gain = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.gain = fsm.FsmTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 10.0,
@@ -63,7 +63,7 @@ class InputPanel(wx.Panel):
 		
 		#feed_index = 2
 		feedT = wx.StaticText(self, -1, "Feedback", style= wx.ALIGN_RIGHT)
-		self.feed = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.feed = fsm.FsmTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 1.0,
@@ -113,9 +113,10 @@ class InputPanel(wx.Panel):
 		state = self.testSound.IsChecked()
 		if state:
 			self.cSound.SetChannel("test_sound", 1)
-			self.cSound.InputMessage("i 1 0 1")
+			self.cSound.InputMessage("i 2 0 1")
 		else:
 			self.cSound.SetChannel("test_sound", 0)
+		#print state
 		
 	def timerUpdate(self, evt):
 		"""update the vumeters"""

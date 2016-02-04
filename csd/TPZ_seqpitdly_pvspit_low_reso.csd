@@ -2,8 +2,8 @@
 <CsOptions> 
 </CsOptions> 
 <CsInstruments> 
-sr = 44100
-ksmps = 64
+sr = $SRATE
+ksmps = $KRATE
 nchnls = 2
 0dbfs = 1
 zakinit 9, 1
@@ -14,7 +14,7 @@ gktaptempo_t init 0;last tap temp time
 gktaptempo_c init 0;counter of taps
 ;gkv chnexport "count", 3 
 
-chn_k "test_sound", 1;out Channel
+chn_k "test_sound", 1;in Channel
 
 chn_k "gkbpm_from_cs", 2;out Channel
 chn_k "gkbpmt_to_cs", 1;In Channel
@@ -39,24 +39,24 @@ endop
 
 
 
-instr 1;test
+instr 1;globals
+print p1
 ktest chnget "test_sound"
-;print p3
-if ktest == 0 then
-	turnoff
+if ktest == 1 then
+	ktrig metro gkbpmP / 60
+	String  sprintfk {{i 2 0 %d.%d}}, int(60 / gkbpmP), int(frac(60 / gkbpmP) * 100)
+	scoreline String, ktrig
 endif
-indur unirand 4
-induri = int(indur)
-inextp3 = induri * 15 / i(gkbpmP)
-event_i "i", 1, p3, inextp3
+endin
 
+
+instr 2;test
 ipitch unirand 48
-ivol unirand 0.4
+ivol unirand 0.2
 ipos unirand 1.0
 kenve linseg 0, 0.01, 1, 0.01, 0.5, p3 - 0.03, 0.4, 0.01, 0
-ao oscil 0.3 + ivol, cpsmidinn(48 + ipitch), 1
+ao oscil 0.1 + ivol, cpsmidinn(48 + ipitch), 1
 alh, arh pan2 ao, ipos
-
 
 ;kinGainDly chnget "inGainDly"
 kind = 11
@@ -70,7 +70,8 @@ endin
 
 
 
-instr 2;input
+instr 3;input
+print p1
 ainl, ainr ins
 
 ;mono/stereo input operation
@@ -140,7 +141,8 @@ endin
 
 
 
-instr 3;tap tempo
+instr 4;tap tempo
+print p1
 ;gktaptempo_t init 0;last tap temp time
 ;gktaptempo_c init 0;counter of taps
 ;kTimer	timeinsts
@@ -165,7 +167,7 @@ endin
 
 
 instr 30; a delay
-;print p1
+print p1
 kdeckl linsegr 0, .07, 1, .07, 0
 itable = 100 + round(frac(p1) * 1000)
 ;print itable
@@ -248,6 +250,7 @@ endin
 
 
 instr 40;recycle delay
+print p1
 kind = 1
 ktime tab kind, 99
 kind = 2
@@ -271,6 +274,7 @@ endin
 
 
 instr 50; output mixer and VUmeter
+print p1
 kdecl linseg 0, .1, 1
 ;volume compensation
 kinsnum init 30
@@ -343,8 +347,6 @@ endin
 <CsScore> 
 f1 0 16384 10 1 
 
-f 20 0 0 1 "202244__luckylittleraven__bass01.wav" 0 0 0
-
 f 99 0 16 -2 0;recycle delay table
 ;index
 ;0 - mono stereo input
@@ -367,9 +369,10 @@ f 100 0 16 -2 0;dummy table
 
 
 ;Run
-i2 0 3600
-i39 0 3600
-i50 0 3600
+i 1 0 3600
+i 3 0 3600
+i 39 0 3600
+i 50 0 3600
 
 </CsScore> 
 </CsoundSynthesizer> 

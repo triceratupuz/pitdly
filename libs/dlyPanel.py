@@ -1,5 +1,5 @@
 import wx
-import floatspinmouse
+import fsm
 import inputPanel
 import gridPanel
 
@@ -49,7 +49,7 @@ class DlyPanel(wx.Panel):
 		self.zoomOut = wx.Button(self, -1, label='Zoom Out', size=(60,20))
 		
 		gainTI = wx.StaticText(self, -1, "Gain\nDirect", style= wx.ALIGN_LEFT)
-		self.gainI = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.gainI = fsm.FsmTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 10.0,
@@ -61,7 +61,7 @@ class DlyPanel(wx.Panel):
 																			indxn = 7)#channel = "outdirectV"
 		
 		gainTD = wx.StaticText(self, -1, "Gain\nDelay", style= wx.ALIGN_LEFT)
-		self.gainD = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.gainD = fsm.FsmTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 10.0,
@@ -73,7 +73,7 @@ class DlyPanel(wx.Panel):
 																			indxn = 8)#channel = "outdlyV"
 		
 		gainTR = wx.StaticText(self, -1, "Gain\nRecycle", style= wx.ALIGN_LEFT)
-		self.gainR = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.gainR = fsm.FsmTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 10.0,

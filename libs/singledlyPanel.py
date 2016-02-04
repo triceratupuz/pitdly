@@ -1,5 +1,5 @@
 import wx
-import floatspinmouse
+import fsm
 
 class SingleDlyPanel(wx.Panel):
 	def __init__(self, *a, **k):
@@ -29,7 +29,7 @@ class SingleDlyPanel(wx.Panel):
 		
 		#feed_index = 4
 		feedT = wx.StaticText(self, -1, "Feedback", style= wx.ALIGN_RIGHT)
-		self.feed = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.feed = fsm.FsmTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 1.0,
@@ -44,7 +44,7 @@ class SingleDlyPanel(wx.Panel):
 		
 		#lf_index = 5
 		lfT = wx.StaticText(self, -1, "LF", style= wx.ALIGN_RIGHT)
-		self.lf = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.lf = fsm.FsmTs(parent=self, id=-1,
 																			digits=1,
 																			min_val = 20.0,
 																			max_val = 15000.0,
@@ -60,7 +60,7 @@ class SingleDlyPanel(wx.Panel):
 		
 		#hf_index = 6
 		hfT = wx.StaticText(self, -1, "HF", style= wx.ALIGN_RIGHT)
-		self.hf = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.hf = fsm.FsmTs(parent=self, id=-1,
 																			digits=1,
 																			min_val = 20.0,
 																			max_val = 15000.0,
@@ -74,7 +74,7 @@ class SingleDlyPanel(wx.Panel):
 		
 		#pan_index = 7
 		panT = wx.StaticText(self, -1, "Pan", style= wx.ALIGN_RIGHT)
-		self.pan = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.pan = fsm.FsmTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 1.0,
@@ -88,7 +88,7 @@ class SingleDlyPanel(wx.Panel):
 		
 		#reso_index = 8
 		resoT = wx.StaticText(self, -1, "Resonance", style= wx.ALIGN_RIGHT)
-		self.reso = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.reso = fsm.FsmTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 2.0,
@@ -114,7 +114,7 @@ class SingleDlyPanel(wx.Panel):
 		
 		#dist_index = 9
 		distT = wx.StaticText(self, -1, "Distortion", style= wx.ALIGN_RIGHT)
-		self.dist = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.dist = fsm.FsmTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 1.0,
@@ -130,7 +130,7 @@ class SingleDlyPanel(wx.Panel):
 		#Routing
 		#In direct index 10
 		volinT = wx.StaticText(self, -1, "Vol In", style= wx.ALIGN_RIGHT)
-		self.volin = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.volin = fsm.FsmTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 10.0,
@@ -143,7 +143,7 @@ class SingleDlyPanel(wx.Panel):
 		self.volin.SetValue(self.cSound.TableGet(self.tabN, 10))		
 		#In recycle delay index 11
 		volinrT = wx.StaticText(self, -1, "Vol from\nRecycle", style= wx.ALIGN_RIGHT)
-		self.volinr = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.volinr = fsm.FsmTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 10.0,
@@ -158,7 +158,7 @@ class SingleDlyPanel(wx.Panel):
 		#Out to output
 		#vol_index = 12
 		volT = wx.StaticText(self, -1, "Vol Out", style= wx.ALIGN_RIGHT)
-		self.vol = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.vol = fsm.FsmTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 10.0,
@@ -172,7 +172,7 @@ class SingleDlyPanel(wx.Panel):
 		
 		#Out to recycler index 13
 		volrT = wx.StaticText(self, -1, "Vol to\nRecycle", style= wx.ALIGN_RIGHT)
-		self.volr = floatspinmouse.FloatSpinMouseTs(parent=self, id=-1,
+		self.volr = fsm.FsmTs(parent=self, id=-1,
 																			digits=3,
 																			min_val = 0.0,
 																			max_val = 10.0,

@@ -9,7 +9,6 @@ class TapPanel(wx.Panel):
 		mainSizer = wx.BoxSizer(wx.HORIZONTAL)
 		#BpM
 		bpmT = wx.StaticText(self, -1, "Current B.p.M.", style= wx.ALIGN_LEFT)
-		
 		self.bpm = fsm.FsmCs(self, -1,
 				digits=2,
 				min_val = 10.0,
@@ -18,7 +17,10 @@ class TapPanel(wx.Panel):
 				increment=0.01,
 				cSound = self.cSound,
 				channel = "gkbpm_to_cs")
-		
+		#Tap Tempo timer
+		self.timerRefresh = wx.Timer(self, wx.ID_ANY)
+		self.timerRefresh.Start(100)
+		self.Bind(wx.EVT_TIMER, self.updateBPM, self.timerRefresh)
 		#Tap Tempo
 		self.tiptap = 0
 		self.tapTemnpB = wx.Button(self, -1, label='Tap Tempo')
@@ -27,12 +29,13 @@ class TapPanel(wx.Panel):
 		mainSizer.Add(bpmT)
 		mainSizer.Add(self.bpm)
 		mainSizer.Add(self.tapTemnpB, -1, wx.ALL)
-		#mainSizer.Add(self.gridPan, 0)
-		#mainSizer.Add(controlSizer, 1, wx.ALL)
 		self.SetSizer(mainSizer)
 		mainSizer.Fit(self)
 		
-	
+	def OnClose(self, evt):
+		self.timerRefresh.Stop()
+		self.Destroy()
+		
 	
 	def sendTap(self, evt):
 		"""SendTap Event"""
@@ -50,8 +53,8 @@ class TapPanel(wx.Panel):
 			self.tapTemnpB.SetBackgroundColour('white')
 
 
-	def updateBPM(self):
-		'''not used'''
+	def updateBPM(self, evt):
+		'''used by timer'''
 		bpm = self.cSound.GetChannel("gkbpm_from_cs")
 		self.bpm.SetValue(bpm)
 		#print bpm

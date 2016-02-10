@@ -76,18 +76,9 @@ class TopFrame(wx.Frame):
 		#self.SetSize(wx.Size(800, 300))
 		self.SetSizer(self.vboxsizer)
 		self.vboxsizer.Fit(self)
-		
 		self.Show()
 
 
-	def OnClose(self, event):
-		"""to stop all the timers created"""
-		#self.tapP.timerFlash.Stop()
-		self.matrixSeqP.inPanel.timerRefresh.Stop() 
-		self.matrixSeqP.dlyPanel.timerRefresh.Stop() 
-		self.Destroy()
-		
-	
 
 
 class AppWithTerm(wx.App):

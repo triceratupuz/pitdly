@@ -63,7 +63,7 @@ class PresetPanel(wx.Panel):
 		#Begin
 		self.SetBackgroundColour(self.initColour)
 		self.Refresh()
-		print "Load"
+		#print "Load"
 		file = "save/save.%03d" % self.presetNumber.GetValue()
 		storedList = pickle.load( open( file, "rb" ) )
 		#setting values
@@ -121,17 +121,25 @@ class PresetPanel(wx.Panel):
 			self.cSound.InputMessage(ftable + '\n' + instr)
 		#redraw grid
 		self.GetParent().matrixSeqP.gridPan.Refresh()#Causes freezing and crash?
-		print "refresh done"
+		#print "refresh done"
 		#csound Istruments management necessary?
 		#self.GetParent().matrixSeqP.gridPan.Update()#?
-
+		#recycle HP
+		self.GetParent().matrixSeqP.inPanel.recycleHP.SetValue(storedList[10])
+		self.cSound.TableSet(99, 5, storedList[10])#to csound table
+		#recycle HP
+		self.GetParent().matrixSeqP.inPanel.recycleLP.SetValue(storedList[11])
+		self.cSound.TableSet(99, 6, storedList[11])#to csound table
+		#recycle direct in
+		self.GetParent().matrixSeqP.inPanel.recycleLP.SetValue(storedList[12])
+		self.cSound.TableSet(99, 3, storedList[12])#to csound table
 
 
 	def saveDo(self, evt):
 		'''save parameters in a file'''
 		self.SetBackgroundColour(self.initColour)
 		self.Refresh()
-		print "Save"
+		#print "Save"
 		#store values in a list 
 		storedList = [self.pname.GetValue(),#presetname 
 						self.GetParent().matrixSeqP.inPanel.monoStereo.GetValue(),#monostereoInputPanel
@@ -142,8 +150,11 @@ class PresetPanel(wx.Panel):
 						self.GetParent().matrixSeqP.limit.GetValue(),
 						self.GetParent().matrixSeqP.gridPan.recycle,#recycle
 						self.GetParent().matrixSeqP.inPanel.feed.GetValue(),
-						self.GetParent().matrixSeqP.gridPan.points]
-		print storedList
+						self.GetParent().matrixSeqP.gridPan.points,
+						self.GetParent().matrixSeqP.inPanel.recycleHP.GetValue(),
+						self.GetParent().matrixSeqP.inPanel.recycleLP.GetValue(),
+						self.GetParent().matrixSeqP.inPanel.recycleIn.GetValue()]
+		#print storedList
 		#grid pan points
 		#self.cSound.TableGet(self.tabN, 4)
 		for item in storedList[9]:

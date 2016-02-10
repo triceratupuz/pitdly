@@ -83,23 +83,20 @@ class DlyPanel(wx.Panel):
 																			cSound = self.cSound,
 																			ftable = 99,
 																			indxn = 9)#channel = "outrecycV"
-		
 		#Limiter
 		limitT = wx.StaticText(self, -1, "Limiter", style= wx.ALIGN_LEFT)
 		self.limit = wx.CheckBox(self, -1, style=wx.CHK_2STATE)
 		self.Bind(wx.EVT_CHECKBOX, self.limitSet, self.limit)
-		
 		#VUMETER
 		vuLT = wx.StaticText(self, -1, "dB L", style= wx.ALIGN_CENTER | wx.TE_RICH)
 		self.vumeter_inL = wx.TextCtrl(self, -1, size=(60,20))
 		vuRT = wx.StaticText(self, -1, "dB R", style= wx.ALIGN_CENTER | wx.TE_RICH)
 		self.vumeter_inR = wx.TextCtrl(self, -1, size=(60,20))
-		
-		#Timer Update MUST BE STOPPED IN MAIN FRAME
+		#Timer Update MUST BE STOPPED ON CLOSE
 		self.timerRefresh = wx.Timer(self, wx.ID_ANY)
 		self.timerRefresh.Start(200)
 		self.Bind(wx.EVT_TIMER, self.timerUpdate, self.timerRefresh)
-		
+		#SIZER
 		bord = 12
 		controlSizer.Add(stepValueT, pos=(0,0))
 		controlSizer.Add(self.Stepvalue, pos=(0,1))
@@ -109,7 +106,6 @@ class DlyPanel(wx.Panel):
 		controlSizer.Add(self.pitQt, pos=(2,1))
 		controlSizer.Add(self.zoomIn, pos=(3,1))
 		controlSizer.Add(self.zoomOut, pos=(4,1))
-		
 		controlSizer.Add(gainTI, pos=(7,0))
 		controlSizer.Add(self.gainI, pos=(7,1))
 		controlSizer.Add(gainTD, pos=(8,0))
@@ -122,14 +118,11 @@ class DlyPanel(wx.Panel):
 		controlSizer.Add(self.vumeter_inL, pos=(11,1))
 		controlSizer.Add(vuRT, pos=(12,0))
 		controlSizer.Add(self.vumeter_inR, pos=(12,1))
-		
 		#Dly DC panel
 		self.gridPan = gridPanel.GridPanel(self, -1, dcw = self.dcw, dch = self.dch, stepsDict = self.stepsDict,  cSound=self.cSound, cSound_perf=self.cSound_perf)
 		self.gridPan.SetSize(wx.Size(self.dcw, self.dch))
-		
 		#inputPanel
 		self.inPanel = inputPanel.InputPanel(self, -1,  cSound=self.cSound, cSound_perf=self.cSound_perf)
-		
 		#Display
 		mainSizer.Add(self.inPanel,0,flag=wx.EXPAND)
 		mainSizer.Add(self.bkwbttn,0,flag=wx.EXPAND)
@@ -139,21 +132,21 @@ class DlyPanel(wx.Panel):
 		#mainSizer.Add(self.outPanel,-1,flag=wx.EXPAND)
 		self.SetSizer(mainSizer)
 		mainSizer.Fit(self)
-		
 		#Bindings
 		self.Bind(wx.EVT_BUTTON, self.gridPan.setStartOnDc_m, self.bkwbttn)#decrease staritng point
 		self.Bind(wx.EVT_BUTTON, self.gridPan.setStartOnDc_p, self.fwdbttn)#increase starting point
 		self.Bind(wx.EVT_BUTTON, self.gridPan.setZoom_in, self.zoomIn)#increase starting point
 		self.Bind(wx.EVT_BUTTON, self.gridPan.setZoom_out, self.zoomOut)#increase starting point
-		
 		#initialize values
-		#self.cSound.SetChannel("outdirectV", 1.0)
-		#self.cSound.SetChannel("outdlyV", 1.0)
-		#self.cSound.SetChannel("outrecycV", 1.0)
 		self.cSound.TableSet(99, 7, 1.0)
 		self.cSound.TableSet(99, 8, 1.0)
 		self.cSound.TableSet(99, 9, 1.0)
 		self.cSound.TableSet(99, 10, 0.0)
+
+
+	def onClose(self, evt):
+		self.timerRefresh.Stop() 
+		self.Destroy()
 
 
 	def timeGridSetting(self, evt):
@@ -166,7 +159,8 @@ class DlyPanel(wx.Panel):
 	def timeQuantizeSet(self, evt):
 		"""time quantization checkbox managing"""
 		self.gridPan.timeQuantize = self.timeQt.GetValue()
-		
+
+
 	def pitQuantizeSet(self, evt):
 		"""pitch quantization checkbox managing"""
 		self.gridPan.pitcQuantize = self.pitQt.GetValue()

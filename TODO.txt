@@ -5,8 +5,11 @@ TPZ_seqpitdly.py
 TO DO / BUGS
 
 
-1.
-input, output and filters control on recycle delay
+1. Midi Controls
+
+2. Better declick when changing preset
+
+3. Manual
 
  
 
@@ -45,3 +48,5 @@ DONE
 - Better sizers layout - sizer fit on main frame added
 
 - Improved Bpm/tap tempo panel / rewritten without txtctrlnum, txtctrlnum deleted
+
+- input and filters control on recycle delay added

@@ -71,17 +71,12 @@ endin
 
 
 instr 3;input
-print p1
 ainl, ainr ins
 
 ;mono/stereo input operation
-;kstereoin init 0
-;kstereoin chnget "monostereo"
 kind = 0
 kstereoin tab kind, 99
-;printk2 kstereoin
 
-;kinGainDly chnget "inGainDly"
 kind = 11
 kinGainDly tab kind, 99
 
@@ -104,9 +99,9 @@ atest1 zar 1
 atest2 zar 2
 zacl 0, 2
 
-zawm (aoutl + atest0) * kinGainDly, 0
-zawm (aoutr + atest1) * kinGainDly, 1
-zawm (aoutd + atest2) * kinGainDly , 2
+zawm (aoutl + atest0) * kinGainDlyP, 0
+zawm (aoutr + atest1) * kinGainDlyP, 1
+zawm (aoutd + atest2) * kinGainDlyP, 2
 
 ;metronome management
 kbpmt changed gkbpm
@@ -121,9 +116,9 @@ endif
 
 kmetrotrig  metro gkbpm / 60
 chnset kmetrotrig, "metro_from_cs"
-gkbpmP port gkbpm, 0.01
+gkbpmP port gkbpm, 0.05
 ;printk2 kmetrotrig
-;printk2 gkbpm
+;printk2 gkbpmP
 ;printks "gkbpm: %f - kbpm: %f\n", .2 , gkbpm, kbpm
 
 ;global fsig for
@@ -142,10 +137,9 @@ endin
 
 
 instr 4;tap tempo
-print p1
+;print p1
 ;gktaptempo_t init 0;last tap temp time
 ;gktaptempo_c init 0;counter of taps
-;kTimer	timeinsts
 kTimer times
 ;reset after X seconds
 if (kTimer - gktaptempo_t) > 3 then
@@ -255,26 +249,44 @@ kind = 1
 ktime tab kind, 99
 kind = 2
 kfeed tab kind, 99
+;filters
+kind = 5
+khp tab kind, 99
+khpp port khp, 0.05
+kind = 6
+klp tab kind, 99
+klpp port klp, 0.05
+;direct input
+kind = 3
+kdir tab kind, 99
+kdirp port kdir, 0.05
 
 ainL zar 5
 ainR zar 6
 
+adirectL zar 0
+adirectR zar 1
+
 adL delayr 60
 atapL deltap ktime * 60 / gkbpmP
-	delayw ainR + kfeed * atapL
+ahpL buthp atapL, khpp
+alpL butlp ahpL, klpp
+	delayw ainR + kfeed * alpL + adirectL * kdirp
 
 adR delayr 60
 atapR deltap ktime * 60 / gkbpmP
-	delayw ainL + kfeed * atapR
+ahpR buthp atapR, khpp
+alpR butlp ahpR, klpp
+	delayw ainL + kfeed * alpR + adirectR * kdirp
 
-zawm atapL, 7
-zawm atapR, 8
+zawm alpL, 7
+zawm alpR, 8
 endin
 
 
 
 instr 50; output mixer and VUmeter
-print p1
+;print p1
 kdecl linseg 0, .1, 1
 ;volume compensation
 kinsnum init 30
@@ -352,10 +364,10 @@ f 99 0 16 -2 0;recycle delay table
 ;0 - mono stereo input
 ;1 - recycle time
 ;2 - recycle feedback
-;3 - recycle input from input - TO BE ADDED!!!
-;4 - recycle input from delays - TO BE ADDED!!!
-;5 - 
-;6 - 
+;3 - recycle input from input
+;4 - 
+;5 - recycle hp
+;6 - recycle lp
 ;7 - Outmixer direct volume
 ;8 - Outmixer delay volume
 ;9 - Outmixer recycle volume

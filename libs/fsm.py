@@ -138,8 +138,8 @@ class FsmTsF(Fsm):
     and perform a function'''
     def __init__(self, *args, **kwargs):
         self.cSound = kwargs.pop('cSound', None)
-        self.indxN = k.pop('indxn', None)
-        self.tabN = k.pop('ftable', None)
+        self.indxN = kwargs.pop('indxn', None)
+        self.tabN = kwargs.pop('ftable', None)
         self.funct = kwargs.pop('funct', None)
         super(FsmTsF, self).__init__(*args, **kwargs)
 
